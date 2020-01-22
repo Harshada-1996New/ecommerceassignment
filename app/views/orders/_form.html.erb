@@ -22,11 +22,6 @@
   </div>
 
   <div class="field">
-    <%= form.label :payment_total %>
-    <%= form.text_field :payment_total,class: "form-control", :required=>true %>
-  </div>
-
-  <div class="field">
     <%= form.label :ord_type %>
     <%= form.text_field :ord_type,class: "form-control", :required=>true %>
   </div>
@@ -35,54 +30,14 @@
     <%= form.hidden_field :user_id, :value=>current_user.id, :required=>true %>
   </div>
 
-  <%= form.fields_for :orderproducts do |product_fields| %>
-    <div class="form-group">
-      <div class="field">
-        <%= product_fields.label :quantity %>
-        <%= product_fields.text_field :quantity, class:"form-control", :required=>true %>
-      </div>
-      <div class="field" >
-        <%= product_fields.label :prd_name %>
-        <%= product_fields.select :product_id,options_for_select(Product.all.collect{|c| [c.prd_name,c.id]}), class: "form-control" %>
-      </div> 
-    </div>  
-  <% end %> 
+  <div class="form-actions">
+   <%= link_to_add_fields "Add product", form, :orderproducts %>
+  </div>
+
+  <%= form.fields_for :addresses do |builder| %>
+     <%= render 'address_fields', :form => builder %>
+  <% end %>
   
-  <%= form.fields_for :addresses do |address_fields| %>
-    <div class="form-group">
-      <div class="field" >
-        <%= address_fields.label :addtype %>
-        <%= address_fields.select :addtype,options_for_select(["billing address","shipping address"]), class: "form-control" %>
-      </div> 
-      <div class="field">
-        <%= address_fields.label :land_mark %>
-        <%= address_fields.text_field :land_mark, class:"form-control", :required=>true %>
-      </div>
-
-      <div class="field">
-        <%= address_fields.label :street %>
-        <%= address_fields.text_field :street, class:"form-control", :required=>true  %>
-      </div>
-
-      <div class="field">
-        <%= address_fields.label :city %>
-        <%= address_fields.text_field :city, class:"form-control", :required=>true  %>
-      </div>
-
-      <div class="field">
-        <%= address_fields.label :state %>
-        <%= address_fields.text_field :state, class:"form-control", :required=>true  %>
-      </div>
-
-      <div class="field">
-        <%= address_fields.label :zip %>
-        <%= address_fields.number_field :zip, class:"form-control", :required=>true  %>
-      </div>
-      <div class="field">
-        <%= address_fields.hidden_field :user_id, :value=>current_user.id %>
-     </div>
-    </div>
-  <% end %> 
   <div class="actions">
     <%= form.submit %>
   </div>
